@@ -33,7 +33,7 @@
           <p class="form-erro">{{ erro }}</p>
         }
         <div class="form-actions">
-          <button type="submit" class="btn btn-primary">Salvar</button>
+          <button type="submit" class="btn btn-primary" [disabled]="salvando">Salvar</button>
           <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
         </div>
       </form>

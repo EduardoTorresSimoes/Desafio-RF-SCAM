@@ -16,6 +16,7 @@ export class EmpregadoComponent implements OnInit {
   editandoId: number | null = null;
   mostrarForm = false;
   erro = '';
+  salvando = false;
 
   constructor(
     private service: EmpregadoService,
@@ -50,17 +51,26 @@ export class EmpregadoComponent implements OnInit {
 
   salvar() {
     if (!this.form.nome.trim() || !this.form.email.trim() || !this.form.cargo.trim() || !this.form.departamento_id) return;
+    if (this.salvando) return;
 
+    const emailEmUso = this.lista.some(emp => emp.email === this.form.email && emp.id !== this.editandoId);
+    if (emailEmUso) {
+      this.erro = 'Email já cadastrado';
+      return;
+    }
+
+    this.salvando = true;
     this.erro = '';
+
     if (this.editandoId) {
       this.service.update(this.editandoId, this.form).subscribe({
         next: () => { this.cancelar(); this.carregar(); },
-        error: (err) => { this.erro = err.error?.message ?? 'Erro ao salvar'; }
+        error: (err) => { this.erro = err.error?.message ?? 'Erro ao salvar'; this.salvando = false; }
       });
     } else {
       this.service.create(this.form).subscribe({
         next: () => { this.cancelar(); this.carregar(); },
-        error: (err) => { this.erro = err.error?.message ?? 'Erro ao salvar'; }
+        error: (err) => { this.erro = err.error?.message ?? 'Erro ao salvar'; this.salvando = false; }
       });
     }
   }
@@ -77,5 +87,6 @@ export class EmpregadoComponent implements OnInit {
     this.editandoId = null;
     this.mostrarForm = false;
     this.erro = '';
+    this.salvando = false;
   }
 }
