@@ -1,0 +1,74 @@
+<div class="page">
+  <div class="page-header">
+    <h2>Empregados</h2>
+    <button class="btn btn-primary" (click)="novo()">Novo</button>
+  </div>
+
+  @if (mostrarForm) {
+    <div class="form-card">
+      <h3>{{ editandoId ? 'Editar' : 'Novo' }} Empregado</h3>
+      <form (ngSubmit)="salvar()">
+        <div class="field">
+          <label for="nome">Nome</label>
+          <input id="nome" [(ngModel)]="form.nome" name="nome" required />
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" [(ngModel)]="form.email" name="email" type="email" required />
+        </div>
+        <div class="field">
+          <label for="cargo">Cargo</label>
+          <input id="cargo" [(ngModel)]="form.cargo" name="cargo" required />
+        </div>
+        <div class="field">
+          <label for="departamento">Departamento</label>
+          <select id="departamento" [(ngModel)]="form.departamento_id" name="departamento_id" required>
+            <option [value]="0" disabled>Selecione...</option>
+            @for (dep of departamentos; track dep.id) {
+              <option [value]="dep.id">{{ dep.nome }}</option>
+            }
+          </select>
+        </div>
+        @if (erro) {
+          <p class="form-erro">{{ erro }}</p>
+        }
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Salvar</button>
+          <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  }
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Cargo</th>
+        <th>Departamento</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (emp of lista; track emp.id) {
+        <tr>
+          <td>{{ emp.id }}</td>
+          <td>{{ emp.nome }}</td>
+          <td>{{ emp.email }}</td>
+          <td>{{ emp.cargo }}</td>
+          <td>{{ emp.departamento_nome }}</td>
+          <td class="cell-actions">
+            <button class="btn btn-secondary" (click)="editar(emp)">Editar</button>
+            <button class="btn btn-danger" (click)="deletar(emp.id!)">Excluir</button>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="6">Nenhum empregado cadastrado.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

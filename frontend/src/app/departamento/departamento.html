@@ -1,0 +1,48 @@
+<div class="page">
+  <div class="page-header">
+    <h2>Departamentos</h2>
+    <button class="btn btn-primary" (click)="novo()">Novo</button>
+  </div>
+
+  @if (mostrarForm) {
+    <div class="form-card">
+      <h3>{{ editandoId ? 'Editar' : 'Novo' }} Departamento</h3>
+      <form (ngSubmit)="salvar()">
+        <div class="field">
+          <label for="nome">Nome</label>
+          <input id="nome" [(ngModel)]="form.nome" name="nome" required />
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Salvar</button>
+          <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  }
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (dep of lista; track dep.id) {
+        <tr>
+          <td>{{ dep.id }}</td>
+          <td>{{ dep.nome }}</td>
+          <td class="cell-actions">
+            <button class="btn btn-secondary" (click)="editar(dep)">Editar</button>
+            <button class="btn btn-danger" (click)="deletar(dep.id!)">Excluir</button>
+          </td>
+        </tr>
+      } @empty {
+        <tr>
+          <td colspan="3">Nenhum departamento cadastrado.</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

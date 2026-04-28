@@ -1,0 +1,27 @@
+nav {
+  background: var(--color-primary);
+  padding: var(--spacing);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.nav-title {
+  color: var(--color-white);
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-right: var(--spacing);
+}
+
+nav a {
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+nav a.active {
+  text-decoration: underline;
+}
+
+main {
+  padding: var(--spacing-lg);
+}
